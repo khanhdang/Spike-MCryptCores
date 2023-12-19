@@ -1,8 +1,21 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import os
+import spikingjelly.clock_driven.ann2snn.examples.utils as utils
+import torch
+import torch.nn as nn
+from spikingjelly.clock_driven.ann2snn import classify_simulator, parser
+
 from torch.utils.data.dataset import Dataset
 from torchvision import transforms
 from torch.utils.data.sampler import SubsetRandomSampler
+
+
+
+## Define the Dataset and the Dataloader
+
+## Customized dataset
 class AESDataset(Dataset):
     def __init__(self, data_path, label_path,max_values,min_values):
         # Transforms
@@ -11,9 +24,13 @@ class AESDataset(Dataset):
         self.data = pd.read_csv(data_path, header=None)
         self.label = pd.read_csv(label_path, header=None)
         self.data = self.data.to_numpy() 
+
+        # print(self.data.shape[0])
         for i in range(self.data.shape[0]):
             # max_val = self.data[i][:].max()
             # min_val = self.data[i][:].min()
+            # print(i)
+            # print(self.data[i][0])
             max_val = max_values[i]
             min_val = min_values[i]
             self.data[i][:] = (self.data[i][:] - min_val) / (max_val - min_val)
@@ -27,6 +44,8 @@ class AESDataset(Dataset):
     def __len__(self):
         return self.data_len
 
+## Loading the data
+    
 def get_loader(batch_size,max_values,min_values):
     validation_split = .2
     shuffle_dataset = True
@@ -49,13 +68,9 @@ def get_loader(batch_size,max_values,min_values):
     test_loader = torch.utils.data.DataLoader(dataset,
                                               sampler=test_sampler, batch_size=batch_size)
     return train_loader, test_loader
-import matplotlib.pyplot as plt
-import os
-import spikingjelly.clock_driven.ann2snn.examples.utils as utils
-import torch
-import torch.nn as nn
-from spikingjelly.clock_driven.ann2snn import classify_simulator, parser
 
+
+## Define the ANN model (fully-connected). The inputs are 8 values and the output is 11 values (0 core -> 10 cores)
 class ANN(nn.Module):
     def __init__(self):
         super().__init__()
@@ -69,6 +84,8 @@ class ANN(nn.Module):
         x = self.network(x)
         return x
 
+
+## Setting of the spikingjelly (log dir, training hyperparameters)
 
 log_dir = "./aes_fc"
 torch.random.manual_seed(0)
@@ -98,15 +115,18 @@ else:
         load = True
 
 
+## Traing the ANN
 # initialize data loader
 max_values = [100,100,100,100,100,100,100,8]
 min_values = [0,0,0,0,-100,-100,-100,-8]
+
+
 train_data_loader, test_data_loader = get_loader(batch_size,max_values,min_values)
 ann = ANN().to(train_device)
 loss_function = nn.CrossEntropyLoss()
 load=False
 if not load:
-    print("a")
+    # print("a")
     optimizer = torch.optim.Adam(
         ann.parameters(), lr=learning_rate, weight_decay=5e-4)
     best_acc = 0.0
@@ -135,6 +155,7 @@ ann_acc = utils.val_ann(net=ann,
                         )
 print(ann_acc)
 
+## Convert ANN to SNN
 
 percentage = 0.004  # load 0.004 of the data
 norm_data_list = []
@@ -156,6 +177,7 @@ snn = onnxparser.parse(ann, norm_data.to(parser_device))
 # Save SNN model
 torch.save(snn, os.path.join(log_dir, 'snn-' + model_name + '.pkl'))
 
+## Run the SNN simulator
 
 fig = plt.figure('simulator')
     # define simulator for classification task
@@ -175,6 +197,8 @@ sim.simulate(test_data_loader,
 
 fig.savefig("graph.pdf")
 
+
+## Quantization and running the testing RTL model
 
 def fixed_point_quantize(x, wl, fl):
     """ Quantize a single precision Floating Point into low-precision Fixed
@@ -246,6 +270,7 @@ print("Correct= {:.2f}%".format(correct/batch_size*100))
 
 
 from spikingjelly.clock_driven import neuron
+
 snn = torch.load('./aes_fc/snn-aes_fc.pkl')
 batch_size = 439 #set the batch_size to whole testset size
 max_values = [100,100,100,100,100,100,100,8]

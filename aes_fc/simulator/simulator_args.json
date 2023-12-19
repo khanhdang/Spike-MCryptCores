@@ -1,0 +1,1 @@
+{"device": "cpu", "name": "", "log_dir": "./aes_fc/simulator", "T": 20, "online_drawer": true, "ann_acc": 1.0, "fig_name": "aes_fc", "step_max": true}
