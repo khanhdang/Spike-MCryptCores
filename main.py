@@ -195,6 +195,8 @@ sim.simulate(test_data_loader,
                  step_max=True
                  )
 
+## Save to "graph.pdf"
+
 fig.savefig("graph.pdf")
 
 
@@ -225,7 +227,7 @@ def fixed_point_quantize(x, wl, fl):
     return out
 
 
-from spikingjelly.clock_driven import neuron
+# from spikingjelly.clock_driven import neuron
 snn = torch.load('./aes_fc/snn-aes_fc.pkl')
 batch_size = 439 #set the batch_size to whole testset size
 max_values = [100,100,100,100,100,100,100,8]
@@ -268,6 +270,9 @@ diff = (counter.max(1)[1]-test_label).max()
 print(diff)
 print("Correct= {:.2f}%".format(correct/batch_size*100))
 
+
+
+## Quantization and save to file
 
 from spikingjelly.clock_driven import neuron
 
@@ -384,6 +389,11 @@ np.savetxt("input_img.txt",test_data_new,fmt="%d")
 np.savetxt("input_label.txt",test_label,fmt="%d")
 np.savetxt("v.txt",counter.detach().cpu().numpy(),fmt="%d")
 
+
+
+
+
+## Test with a single input
 
 def snn_single_input(snn, x, max_values, min_values,T):
     """ Run inference on a single input
