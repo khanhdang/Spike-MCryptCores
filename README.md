@@ -69,6 +69,9 @@ To run the training and testing
 python3 main.py
 ```
 
+## Citation
+
+- Pham-Khoi Dong, **Khanh N. Dang**,  Duy-Anh Nguyen, Xuan-Tu Tran, *''A light-weight neuromorphic controlling clockgating based multi-core cryptography platform'', **Microprocessors and Microsystems** (accepted), 2024. 	
 
 
 ## Contact
