@@ -1,6 +1,6 @@
 # Spike-MCryptCores: A light-weight neuromorphic controlling clock-gating based multi-core cryptography platform
 
-Source code for the paper: Pham-Khoi Dong, **Khanh N. Dang**,  Duy-Anh Nguyen, Xuan-Tu Tran, *''A light-weight neuromorphic controlling clockgating based multi-core cryptography platform'', **Microprocessors and Microsystems** (accepted), 2024. 	
+Source code for the paper: Pham-Khoi Dong, **Khanh N. Dang**,  Duy-Anh Nguyen, Xuan-Tu Tran, *''A light-weight neuromorphic controlling clockgating based multi-core cryptography platform'', **Microprocessors and Microsystems** (accepted), 2024. \[[PDF](https://doi.org/10.1016/j.micpro.2024.105040)\]
 
 ## Setup
 
