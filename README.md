@@ -1,14 +1,14 @@
-# Spike-MCryptCores: A light-weight neuromorphic controlling clock-gating based multi-core cryptography platform
+# Spike-MCryptCores: A light-weight neuromorphic controlling clock-gating-based multi-core cryptography platform
 
 Source code for the paper: Pham-Khoi Dong, **Khanh N. Dang**,  Duy-Anh Nguyen, Xuan-Tu Tran, *''A light-weight neuromorphic controlling clockgating based multi-core cryptography platform'', **Microprocessors and Microsystems** (accepted), 2024. \[[PDF](https://doi.org/10.1016/j.micpro.2024.105040)\]
 
 ## Setup
 
 The project can be run on Google Collab.
-For local Python enviroments, followings are the dependencies
+For local Python environments, following are the dependencies
 
 - spikingjelly
-- gdown (can be replaced by a local copy of dataset)
+- gdown (can be replaced by a local copy of the dataset)
 - onnxruntime
 - numpy
 - panda
@@ -22,7 +22,7 @@ For local Python enviroments, followings are the dependencies
 
 ## Setting up
 
-The source code only work with Python 3.7, therefore, we will use conda to manage.
+The source code only works with Python 3.7, therefore, we will use conda to manage.
 Please install miniconda from [https://conda.io/](https://conda.io/).
 
 Then, let's create a virtual environment
@@ -53,7 +53,7 @@ pip3 install pandas
 pip3 install protobuf==3.17.3
 ```
 
-To download the lastest files of data:
+To download the latest files of data:
 
 ```
 gdown --id 19GNGsv7x25WfQcOtWTmOOpDHK9fVQNNf&usp=drive_fs
@@ -61,7 +61,7 @@ gdown --id 19B2aNLO9IxIR4jqXERF4VEKN4OslC352&usp=drive_fs
 gdown --id 1hJ_vMbVLauuS5i_sriJ8OXRbK1LZ8uc4
 ```
 
-We also provide copies in this repo (data_training.csv, output.csv and data_testing-Full-random.csv).
+We also provide copies in this repo (data_training.csv, output.csv, and data_testing-Full-random.csv).
 
 
 To run the training and testing
@@ -76,6 +76,6 @@ python3 main.py
 
 ## Contact
 
-If you have any question, please contact
+If you have any questions, please contact
 
-- Prof. Khanh N. Dang (khanh \[at\] u-aizu.ac.jp)
+-  Khanh N. Dang (khanh \[at\] u-aizu.ac.jp)
